@@ -4,13 +4,15 @@
 DELIMITER //
 
 CREATE TRIGGER reset_valid_email
-AFTER UPDATE ON users
+BEFORE UPDATE ON users
 FOR EACH ROW
 BEGIN
   -- Check if the email has been changed
   IF OLD.email <> NEW.email THEN
   -- Reset the valid_email field if the email is updated
-  SET NEW.valid_email = 0
+      SET NEW.valid_email = 0
+  ELSE
+      SET NEW.valid_email = NEW.valid_email;
   END IF;
 END;
 //
